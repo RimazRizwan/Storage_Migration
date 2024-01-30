@@ -85,46 +85,56 @@ public class FileReadServiceImpl implements FileReadService {
                     if (boxRange.contains(",")) {
                         String[] individualBoxes = boxRange.split(",");
                         for (String individualBox : individualBoxes) {
+                            System.out.println("VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV"+globalProperties.getDivision());
                             int dataExists = userDataRepository.checkData(individualBox.trim());
-                            String newBoxValue = individualBox.trim();
+                            StringBuilder newBoxValue = new StringBuilder(individualBox.trim());
+
 
                             for (int i = 1; i <= dataExists; i++) {
-                                newBoxValue += "/IS-" + i;
+                                newBoxValue.append(individualBox.trim());
+                                System.out.println("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRR"+dataExists);
+                                System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"+individualBox.trim());
+                                newBoxValue = new StringBuilder(individualBox.trim());
+                                newBoxValue.append("/"+globalProperties.getDivision()+"-").append(i);
                             }
-
-                            userDataRepository.addEmpDetails("IS", receivedDate.toString(), expireDate, newBoxValue);
-                            primaryKeyDataRepository.addPrimaryKeyDetails(individualBox.trim(), newBoxValue, "IS", "Done");
+                            userDataRepository.addEmpDetails(globalProperties.getDivision(), receivedDate.toString(), expireDate, newBoxValue.toString());
+                            primaryKeyDataRepository.addPrimaryKeyDetails(individualBox.trim(), newBoxValue.toString(), globalProperties.getDivision(), "Done");
                         }
 
 
-                    } else if (boxRange.contains("-")) {
-                        String[] rangeParts = boxRange.split("-");
-                        if (rangeParts.length == 2) {
-                            int start = Integer.parseInt(rangeParts[0].trim());
-                            int end = Integer.parseInt(rangeParts[1].trim());
-                            for (int i = start; i <= end; i++) {
-                                int dataExists = userDataRepository.checkData(String.valueOf(i).trim());
-                                String newBoxValue = String.valueOf(i).trim();
-
-                                for (int j = 1; j <= dataExists; j++) {
-                                    newBoxValue += "/IS-" + j;
-                                }
-
-                                userDataRepository.addEmpDetails("IS", receivedDate.toString(), expireDate, newBoxValue);
-                                primaryKeyDataRepository.addPrimaryKeyDetails(String.valueOf(i).trim(), newBoxValue, "IS", "Done");
-                            }
-                        }
-                    } else {
-
+                    }
+//                    else if (boxRange.contains("-")) {
+//                        String[] rangeParts = boxRange.split("-");
+//                        if (rangeParts.length == 2) {
+//
+//                            int start = Integer.parseInt(rangeParts[0].trim());
+//                            int end = Integer.parseInt(rangeParts[1].trim());
+//                            for (int i = start; i <= end; i++) {
+//                                int dataExists = userDataRepository.checkData(String.valueOf(i).trim());
+//                                StringBuilder newBoxValue = new StringBuilder(String.valueOf(i).trim());
+//
+//                                for (int j = 1; j <= dataExists; j++) {
+//
+//                                    newBoxValue.append("/IS-").append(j);
+//                                    System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"+newBoxValue);
+//                                }
+//
+//                                userDataRepository.addEmpDetails("IS", receivedDate.toString(), expireDate, newBoxValue.toString());
+//                                primaryKeyDataRepository.addPrimaryKeyDetails(String.valueOf(i).trim(), newBoxValue.toString(), "IS", "Done");
+//                            }
+//                        }
+//                    }
+                    else {
+                        System.out.println("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"+globalProperties.getDivision());
                         int dataExists = userDataRepository.checkData(boxRange.trim());
 
                         for (int i = 1; i <= dataExists; i++) {
-                            String suffix = (i == 1) ? "" : "/IS-" + i;
+                            String suffix = (i == 1) ? "" : "/"+globalProperties.getDivision()+"-" + i;
                             String newBoxValue = boxRange.trim() + suffix;
                             System.out.println("New box value ------------------------------>"+newBoxValue);
 
-                            userDataRepository.addEmpDetails("IS", receivedDate.toString(), expireDate, newBoxValue);
-                            primaryKeyDataRepository.addPrimaryKeyDetails(boxRange.trim(), newBoxValue, "IS", "Done");
+                            userDataRepository.addEmpDetails(globalProperties.getDivision(), receivedDate.toString(), expireDate, newBoxValue);
+                            primaryKeyDataRepository.addPrimaryKeyDetails(boxRange.trim(), newBoxValue, globalProperties.getDivision(), "Done");
                         }
 
                     }

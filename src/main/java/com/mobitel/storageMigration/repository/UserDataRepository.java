@@ -24,5 +24,16 @@ public interface UserDataRepository extends JpaRepository<UserEntity, Integer> {
     @Query(value = "SELECT COUNT(*) FROM inventory.business_center WHERE box_range = :box_range OR box_range IN (CONCAT(:box_range,'/IS'), CONCAT(:box_range,'/IS-1'), CONCAT(:box_range,'/IS-2'), CONCAT(:box_range,'/IS-3'), CONCAT(:box_range,'/IS-4'))", nativeQuery = true)
     int checkData(@Param("box_range") String box_range);
 
+//    @Query(value = "SELECT COUNT(*) FROM inventory.business_center " +
+//            "WHERE box_range = :box_range OR " +
+//            "box_range IN (" +
+//            "CONCAT(:box_range, '/'+ :division), " +
+//            "CONCAT(:box_range, '/'+ :division + '-1'), " +
+//            "CONCAT(:box_range, '/'+ :division + '-2'), " +
+//            "CONCAT(:box_range, '/'+ :division + '-3'), " +
+//            "CONCAT(:box_range, '/'+ :division + '-4'))",
+//            nativeQuery = true)
+//    int checkData(@Param("box_range") String box_range, @Param("division") String division);
+
 
 }

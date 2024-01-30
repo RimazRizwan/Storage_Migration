@@ -16,6 +16,9 @@ public class GlobalProperties {
     @Value("${file.paths.text}")
     private String property2;
 
+    @Value("${com.storage.division}")
+    private String division;
+
 
 
 }
